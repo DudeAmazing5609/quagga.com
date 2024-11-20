@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: Lucida Console;
+            background-image: url("BB1msKEy.JPG");
+            
+        }
+        #main{
+            background-color: rgb(231, 229, 229);
+            margin-right: 450px;
+            margin-left: 450px;
+            padding-top: 60px;
+            margin-top: 50px;
+        }
+        #title{
+            margin-left: 42.5px;
+            margin-right: 50px;
+            width: 350px;
+            height: 40px;
+            border: 0;
+            margin-bottom: 10px;
+            font-family: Lucida Console;
+            font-size: 25px;
+
+        }
+        #fileupload{
+            margin-left: 42.5px;
+            margin-bottom: 30px;
+        }
+        textarea{
+            margin-left: 42.5px;
+            width: 350px;
+            height: 250px;
+            margin-bottom: 50px;
+            font-size: 17px;
+            font-family: LUCida console;
+            border: 0;
+        }
+        #post{
+            float: right;
+            margin-right: 45px;
+            margin-bottom: 10px;
+            width: 70px;
+            height: 30px;
+            border: 0;
+            background-color: red;
+            color: white;
+            font-family: lucida console;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <button id="post">post</button>
+        <input type="text" id="title" placeholder="Title">
+        <textarea id="bodytext" placeholder="Body text"></textarea>
+    </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAq6moFH6KZQrEiNIH94VN4-UaHj3DG3mU",
+          authDomain: "bumhead-quagga.firebaseapp.com",
+          projectId: "bumhead-quagga",
+          storageBucket: "bumhead-quagga.firebasestorage.app",
+          messagingSenderId: "3196291391",
+          appId: "1:3196291391:web:debe18aa3b3bc8cf2eeb8a",
+          measurementId: "G-FN427S4SYY"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+        const db = getFirestore(app);
+
+        const Collection = collection(db, 'posts');
+
+        const button = document.getElementById("post")
+
+        var author;
+
+        fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            author = data.ip;
+        })
+
+        button.addEventListener('click', () =>{ 
+            var titleText = document.getElementById("title").value; 
+            var bodyText = document.getElementById("bodytext").value;
+            addDoc(Collection, { title: titleText, author: author, text: bodyText  });})
+            document.getElementById("title").textContent = ""
+            document.getElementById("bodytext").textContent = ""
+
+        
+
+      </script>
+</body>
+</html>
